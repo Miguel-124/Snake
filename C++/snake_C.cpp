@@ -31,7 +31,7 @@ int game_y_head(int a_w, int a_h);
 int game_x_fruit(int a_w, int a_h);
 int game_y_fruit(int a_w, int a_h);
 void input();
-void logic();
+void logic(int a_w, int a_h);
 
 void set_map_square(int a)
 {
@@ -109,7 +109,7 @@ void set_map_square(int a)
             cout << "#";
         }
         input();
-        logic();
+        logic(a_w, a_h);
         Sleep(250);
     }
 }
@@ -137,7 +137,7 @@ void input()
         }
     }
 }
-void logic()
+void logic(int a_w, int a_h)
 {
     switch (dir)
     {
@@ -158,14 +158,14 @@ void logic()
     default:
         break;
     }
-    // if (x_head < 0 || x_head > a_w || y_head < 0 || y_head > a_h)
-    //    Game_Over = true;
-    // if (x_head == x_fruit && y_head == y_fruit)
-    // {
-    //     score++;
-    //     x_fruit = game_x_fruit(a_w, a_h);
-    //     y_fruit = game_y_fruit(a_w, a_h);
-    // }
+    if (x_head < 0 || x_head >= a_w || y_head < 0 || y_head > a_h)
+        Game_Over = true;
+    if (x_head == x_fruit && y_head == y_fruit)
+    {
+        score++;
+        x_fruit = game_x_fruit(a_w, a_h);
+        y_fruit = game_y_fruit(a_w, a_h);
+    }
 }
 void game_over()
 {
@@ -188,7 +188,8 @@ void game_over()
         menu();
         break;
     case 2:
-        system("exit");
+        system("EXIT");
+        break;
     default:
         system("CLS");
         cout << setw(68) << setfill(' ') << "Type right value" << endl;
@@ -274,6 +275,7 @@ void menu()
     case 1:
         maps();
     case 2:
+        system("EXIT");
         break;
     default:
         system("CLS");
@@ -290,13 +292,13 @@ int game_x_fruit(int a_w, int a_h)
 {
     unsigned seed = time(0);
     srand(seed);
-    return rand() % a_w + 1;
+    return rand() % a_w;
 }
 int game_y_fruit(int a_w, int a_h)
 {
     unsigned seed = time(0);
     srand(seed);
-    return rand() % a_h + 1;
+    return rand() % a_h;
 }
 int main()
 {
