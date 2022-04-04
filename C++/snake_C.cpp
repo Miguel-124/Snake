@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <windows.h>
 #include <ctime>
+#include <conio.h>
 using namespace std;
 // TODO Musze sprawdzić game(), set_square(), co zrobić żeby przekazywac informacje o rozmiarze i wartościach x/y head oraz F
 enum direction
@@ -29,6 +30,8 @@ int game_x_head(int a_w, int a_h);
 int game_y_head(int a_w, int a_h);
 int game_x_fruit(int a_w, int a_h);
 int game_y_fruit(int a_w, int a_h);
+void input();
+void logic();
 
 void set_map_square(int a)
 {
@@ -65,11 +68,6 @@ void set_map_square(int a)
     y_fruit = game_y_fruit(a_w, a_h);
     int score = 0;
     dir = STOP;
-    cout << x_head << endl;
-    cout << y_head << endl;
-    cout << x_fruit << endl;
-    cout << y_fruit << endl;
-    Sleep(1000);
     while (!Game_Over)
     {
         system("CLS");
@@ -110,28 +108,87 @@ void set_map_square(int a)
         {
             cout << "#";
         }
-        Sleep(500);
+        input();
+        logic();
+        Sleep(250);
     }
+}
+void input()
+{
+    if (_kbhit())
+    {
+        switch (_getch())
+        {
+        case 'w':
+            dir = UP;
+            break;
+        case 'a':
+            dir = LEFT;
+            break;
+        case 'd':
+            dir = RIGHT;
+            break;
+        case 's':
+            dir = DOWN;
+            break;
+        case 'q':
+            Game_Over = true;
+            break;
+        }
+    }
+}
+void logic()
+{
+    switch (dir)
+    {
+    case STOP:
+        break;
+    case UP:
+        y_head--;
+        break;
+    case LEFT:
+        x_head--;
+        break;
+    case RIGHT:
+        x_head++;
+        break;
+    case DOWN:
+        y_head++;
+        break;
+    default:
+        break;
+    }
+    // if (x_head < 0 || x_head > a_w || y_head < 0 || y_head > a_h)
+    //    Game_Over = true;
+    // if (x_head == x_fruit && y_head == y_fruit)
+    // {
+    //     score++;
+    //     x_fruit = game_x_fruit(a_w, a_h);
+    //     y_fruit = game_y_fruit(a_w, a_h);
+    // }
 }
 void game_over()
 {
     system("CLS");
-    cout << setw(60) << setfill(' ') << "You lost :(" << endl;
-    cout << setw(60) << setfill(' ') << "Your score was: " << score << " \n"
+    cout << setw(61) << setfill(' ') << "You lost :(" << endl;
+    cout << setw(64) << setfill(' ') << "Your score was: " << score << " \n"
          << endl;
     int choice;
     cout << setw(73) << setfill(' ') << "Would you like to restart the game:" << endl;
-    cout << setw(58) << setfill(' ') << "1. Yes" << endl;
+    cout << setw(59) << setfill(' ') << "1. Yes" << endl;
     cout << setw(58) << setfill(' ') << "2. No" << endl;
+    cout << endl;
+    cout << setw(62) << setfill(' ') << "Your choice: ";
     cin >> choice;
     switch (choice)
     {
     case 1:
+        Game_Over = false;
         system("CLS");
         menu();
         break;
     case 2:
-        system("END");
+        system("exit");
     default:
         system("CLS");
         cout << setw(68) << setfill(' ') << "Type right value" << endl;
