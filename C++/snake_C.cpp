@@ -32,8 +32,6 @@ int game_x_fruit(int a_w, int a_h);
 int game_y_fruit(int a_w, int a_h);
 void input();
 int logic(int a_w, int a_h);
-int X_tail();
-int Y_tail();
 
 void set_map_square(int a)
 {
@@ -61,6 +59,10 @@ void set_map_square(int a)
         view = 25;
         break;
     }
+    system("CLS");
+    cout << endl
+         << setw(78) << setfill(' ') << "Use your 'wasd' keys to move, and 'q' to exit" << endl;
+    Sleep(2000);
     x_head = game_x_head(a_w, a_h);
     y_head = game_y_head(a_w, a_h);
     x_fruit = game_x_fruit(a_w, a_h);
@@ -120,7 +122,7 @@ void set_map_square(int a)
         score = logic(a_w, a_h);
         cout << endl;
         cout << setw(65) << setfill(' ') << "Your actual score: " << score << endl;
-        Sleep(200);
+        Sleep(150);
     }
 }
 void input()
@@ -184,6 +186,9 @@ int logic(int a_w, int a_h)
     }
     if (x_head < 0 || x_head >= a_w || y_head < 0 || y_head > a_h)
         Game_Over = true;
+    for (int i = 0; i < score; i++)
+        if (x_head == x_tail[i] && y_head == y_tail[i])
+            Game_Over = true;
     if (x_head == x_fruit && y_head == y_fruit)
     {
         score++;
@@ -270,7 +275,7 @@ void maps()
     system("CLS");
     cout << setw(63) << setfill(' ') << "Chose your map:" << endl;
     cout << setw(60) << setfill(' ') << "1. Square" << endl;
-    cout << setw(61) << setfill(' ') << "2. Triangle" << endl;
+    cout << setw(64) << setfill(' ') << "2. Triangle (SOON)" << endl;
     cout << "" << endl;
     int map_choice;
     cout << setw(62) << setfill(' ') << "Your choice: ";
@@ -281,7 +286,13 @@ void maps()
         square();
         break;
     case 2:
-        triangle();
+        // triangle();
+        system("CLS");
+        cout << endl
+             << setw(70) << setfill(' ') << "Sorry, this mode is not ready" << endl;
+        cout << setw(68) << setfill(' ') << "Please choose another one" << endl;
+        Sleep(2000);
+        maps();
         break;
     default:
         system("CLS");
@@ -334,7 +345,7 @@ int main()
 {
     Game_Over = false;
     cout << setw(63) << setfill(' ') << "Welcome in Snake!" << endl;
-    cout << setw(71) << setfill(' ') << "This game was developed using C++" << endl;
+    cout << setw(73) << setfill(' ') << "This simple game was developed using C++" << endl;
     cout << setw(73) << setfill(' ') << "I hope you enjoy it 'Michal Gorecki'\n\n";
     cout << endl;
     menu();
