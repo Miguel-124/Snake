@@ -7,4 +7,4 @@ So, first project 'Snake in C++' done, but in terminal it is very slow.
 I need to work on dynamic memory and maybe find another engine to run project.
 
 ![](Snake_C++.gif)
-###              SNAKE in C++
+###                                SNAKE in C++
