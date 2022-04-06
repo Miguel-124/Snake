@@ -1,11 +1,11 @@
 #include <iostream>
 #include <iomanip>
 #include <cstdlib>
-#include <windows.h>
+#include "windows.h"
 #include <ctime>
-#include <conio.h>
+#include "conio.h"
 using namespace std;
-// TODO Musze sprawdzić game(), set_square(), co zrobić żeby przekazywac informacje o rozmiarze i wartościach x/y head oraz F
+
 enum direction
 {
     STOP = 0,
@@ -16,7 +16,7 @@ enum direction
 };
 bool Game_Over;
 direction dir;
-int x_head, y_head, x_fruit, y_fruit, score;
+int x_head, y_head, x_fruit, y_fruit, score, x_tail[100], y_tail[100];
 
 void game_over();
 void square();
@@ -31,42 +31,41 @@ int game_y_head(int a_w, int a_h);
 int game_x_fruit(int a_w, int a_h);
 int game_y_fruit(int a_w, int a_h);
 void input();
-void logic(int a_w, int a_h);
+int logic(int a_w, int a_h);
+int X_tail();
+int Y_tail();
 
 void set_map_square(int a)
 {
-    int a_w;
-    int a_h;
-    int view;
-    if (a == 1)
+    int a_w, a_h, view;
+    switch (a)
     {
+    case 1:
         a_w = 20;
         a_h = 15;
         view = 45;
-    }
-    if (a == 2)
-    {
+        break;
+    case 2:
         a_w = 30;
         a_h = 25;
         view = 40;
-    }
-    if (a == 3)
-    {
+        break;
+    case 3:
         a_w = 40;
         a_h = 15;
         view = 35;
-    }
-    if (a == 4)
-    {
+        break;
+    case 4:
         a_w = 60;
         a_h = 25;
         view = 25;
-    };
+        break;
+    }
     x_head = game_x_head(a_w, a_h);
     y_head = game_y_head(a_w, a_h);
     x_fruit = game_x_fruit(a_w, a_h);
     y_fruit = game_y_fruit(a_w, a_h);
-    int score = 0;
+    score = 0;
     dir = STOP;
     while (!Game_Over)
     {
@@ -98,7 +97,16 @@ void set_map_square(int a)
                 }
                 else
                 {
-                    cout << " ";
+                    bool tail = false;
+                    for (int i = 0; i < score; i++)
+
+                        if (x_tail[i] == x && y_tail[i] == y)
+                        {
+                            tail = true;
+                            cout << "o";
+                        }
+                    if (!tail)
+                        cout << " ";
                 }
             }
             cout << endl;
@@ -109,8 +117,10 @@ void set_map_square(int a)
             cout << "#";
         }
         input();
-        logic(a_w, a_h);
-        Sleep(250);
+        score = logic(a_w, a_h);
+        cout << endl;
+        cout << setw(65) << setfill(' ') << "Your actual score: " << score << endl;
+        Sleep(200);
     }
 }
 void input()
@@ -137,8 +147,22 @@ void input()
         }
     }
 }
-void logic(int a_w, int a_h)
+int logic(int a_w, int a_h)
 {
+    int prev_x = x_tail[0];
+    int prev_y = y_tail[0];
+    int prev2_x, prev2_y;
+    x_tail[0] = x_head;
+    y_tail[0] = y_head;
+    for (int i = 1; i < score; i++)
+    {
+        prev2_x = x_tail[i];
+        prev2_y = y_tail[i];
+        x_tail[i] = prev_x;
+        y_tail[i] = prev_y;
+        prev_x = prev2_x;
+        prev_y = prev2_y;
+    }
     switch (dir)
     {
     case STOP:
@@ -165,7 +189,13 @@ void logic(int a_w, int a_h)
         score++;
         x_fruit = game_x_fruit(a_w, a_h);
         y_fruit = game_y_fruit(a_w, a_h);
+        for (int i = 0; i < score; i++)
+        {
+            x_tail[i];
+            y_tail[i];
+        }
     }
+    return score;
 }
 void game_over()
 {
