@@ -24,19 +24,19 @@ void triangle();
 void maps();
 void menu();
 int main();
-int game(int a_w, int a_h);
-void set_map_square(int a);
-int game_x_head(int a_w, int a_h);
-int game_y_head(int a_w, int a_h);
-int game_x_fruit(int a_w, int a_h);
-int game_y_fruit(int a_w, int a_h);
+// int game(int *a_w, int *a_h);
+void set_map_square(int *a);
+int game_x_head(int *a_w, int *a_h);
+int game_y_head(int *a_w, int *a_h);
+int game_x_fruit(int *a_w, int *a_h);
+int game_y_fruit(int *a_w, int *a_h);
 void input();
-int logic(int a_w, int a_h);
+int logic(int *a_w, int *a_h);
 
-void set_map_square(int a)
+void set_map_square(int *a)
 {
     int a_w, a_h, view;
-    switch (a)
+    switch (*a)
     {
     case 1:
         a_w = 20;
@@ -63,10 +63,10 @@ void set_map_square(int a)
     cout << endl
          << setw(78) << setfill(' ') << "Use your 'wasd' keys to move, and 'q' to exit" << endl;
     Sleep(2000);
-    x_head = game_x_head(a_w, a_h);
-    y_head = game_y_head(a_w, a_h);
-    x_fruit = game_x_fruit(a_w, a_h);
-    y_fruit = game_y_fruit(a_w, a_h);
+    x_head = game_x_head(&a_w, &a_h);
+    y_head = game_y_head(&a_w, &a_h);
+    x_fruit = game_x_fruit(&a_w, &a_h);
+    y_fruit = game_y_fruit(&a_w, &a_h);
     score = 0;
     dir = STOP;
     while (!Game_Over)
@@ -119,7 +119,7 @@ void set_map_square(int a)
             cout << "#";
         }
         input();
-        score = logic(a_w, a_h);
+        score = logic(&a_w, &a_h);
         cout << endl;
         cout << setw(65) << setfill(' ') << "Your actual score: " << score << endl;
         Sleep(150);
@@ -149,7 +149,7 @@ void input()
         }
     }
 }
-int logic(int a_w, int a_h)
+int logic(int *a_w, int *a_h)
 {
     int prev_x = x_tail[0];
     int prev_y = y_tail[0];
@@ -184,7 +184,7 @@ int logic(int a_w, int a_h)
     default:
         break;
     }
-    if (x_head < 0 || x_head >= a_w || y_head < 0 || y_head > a_h)
+    if (x_head < 0 || x_head >= *a_w || y_head < 0 || y_head > *a_h)
         Game_Over = true;
     for (int i = 0; i < score; i++)
         if (x_head == x_tail[i] && y_head == y_tail[i])
@@ -248,16 +248,16 @@ void square()
     switch (size)
     {
     case 1:
-        set_map_square(size);
+        set_map_square(&size);
         break;
     case 2:
-        set_map_square(size);
+        set_map_square(&size);
         break;
     case 3:
-        set_map_square(size);
+        set_map_square(&size);
         break;
     case 4:
-        set_map_square(size);
+        set_map_square(&size);
         break;
     default:
         system("CLS");
@@ -327,19 +327,19 @@ void menu()
     };
 }
 // int game_x_head(int a_w, int a_h){} NIE DZIAŁA ZWRACANIE PARU ZMIENNYCH Z FUNKCJI WIĘC JEST ROZDZIELONE NA POSZCZEGÓLNE
-int game_x_head(int a_w, int a_h) { return a_w / 2; }
-int game_y_head(int a_w, int a_h) { return a_h / 2; }
-int game_x_fruit(int a_w, int a_h)
+int game_x_head(int *a_w, int *a_h) { return *a_w / 2; }
+int game_y_head(int *a_w, int *a_h) { return *a_h / 2; }
+int game_x_fruit(int *a_w, int *a_h)
 {
     unsigned seed = time(0);
     srand(seed);
-    return rand() % a_w;
+    return rand() % *a_w;
 }
-int game_y_fruit(int a_w, int a_h)
+int game_y_fruit(int *a_w, int *a_h)
 {
     unsigned seed = time(0);
     srand(seed);
-    return rand() % a_h;
+    return rand() % *a_h;
 }
 int main()
 {
