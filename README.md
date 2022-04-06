@@ -8,3 +8,4 @@ I need to work on dynamic memory and maybe find another engine to run project.
 
 ![](Snake_C++.gif)
 ###                                SNAKE in C++
+![](Snake_img.png)
