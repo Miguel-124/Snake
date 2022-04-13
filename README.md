@@ -6,6 +6,8 @@
 So, first project 'Snake in C++' done, but in terminal it is very slow.
 I need to work on dynamic memory and maybe find another engine to run project.
 (UPTADE): I have add some pointers and now it's faster but still...
+This GIF bellow is fiew times slower than my app so it's only for thoes who can't or 
+don't have time to download Snake.
 
 ![](Snake_C++.gif)
 ### SNAKE in C++
